@@ -1,0 +1,82 @@
+addOneMachine.stateTransition = {
+"start": { // Move to the right side of the number
+// If we're in state "start" and see "0", then
+// write "0", move to the right, and go to state
+// "if0"
+    "0": ["0", "right", "if0"],
+    "1": ["1", "right", "if1"],
+    "" : ["0", "right", "done"]
+},
+
+"if0": {
+    
+  "0": ["0", "right", "write0"],
+
+  "1": ["1", "right", "write1"],
+
+   "": ["0", "right", "stop"]
+},
+
+"if1": {
+// 0 + 1 = 1. We're done adding because there's no
+// carry
+    "0": ["0", "right", "write1"],
+// 1 + 1 = 10 in binary. So, we need to write down
+// "0" and carry the 1.
+    "1": ["1", "right", "write10"],
+// We had to carry all the way to the left side of
+// the number. Finish carrying.
+     "": ["0", "right", "stop"]
+},
+
+"write0": {
+
+    "0": ["0", "left", "done"],
+    "1": ["1", "left", "done"],
+    "" : ["", "right", "w0"]
+},
+
+"w0":{
+
+    "0": ["0", "left", "done"],
+    "1": ["1", "left", "done"],
+    "" : ["0", "right", "stop"]
+},
+
+"write1": {
+
+     "0": ["0", "left", "done"],
+     "1": ["1", "left", "done"],
+     "" : ["", "right", "w1"]
+},
+
+"w1":{
+
+    "0": ["0", "left", "done"],
+    "1": ["1", "left", "done"],
+    "" : ["1", "right", "stop"]
+},
+
+"write10": {
+
+    "0": ["0", "left", "done"],
+    "1": ["1", "left", "done"],
+    "" : ["", "right", "w10"]
+},
+
+"w10":{
+
+    "0": ["0", "left", "done"],
+    "1": ["1", "left", "done"],
+    "": ["1", "right", "w0"]
+}, 
+
+"stop": {} // Don't do anything else.
+};
+// The list of symbols that can be on the tape.
+// Change this to be whatever you want.
+addOneMachine.alphabet = ["0", "1", ""];
+// The starting value of the tape.
+// Change to the input you want to give to the Turing Machine
+addOneMachine.startTape = "11";
+// Variables representing the Turing Machine before it runs
